@@ -1,0 +1,32 @@
+
+import React from 'react';
+
+const ItemList = ({ items }) => {
+  return (
+    <ul>
+      {items.map((item, index) => (
+        <li key={index}>{item}</li>
+      ))}
+    </ul>
+  );
+};
+
+export default ItemList;
+
+Unit test
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import ItemList from './ItemList';
+
+describe('ItemList Component', () => {
+  test('renders the correct number of items', () => {
+    const items = ['Item 1', 'Item 2', 'Item 3'];
+    
+    // Render the component with the test data
+    render(<ItemList items={items} />);
+    
+    // Assert the number of <li> elements rendered
+    const listItems = screen.getAllByRole('listitem');
+    expect(listItems).toHaveLength(items.length);
+  });
+});
