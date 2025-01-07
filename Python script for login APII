@@ -1,0 +1,31 @@
+# Base URL of the API
+BASE_URL = "https://example.com/api/login"
+
+def test_login_api(username, password):
+    # Payload for the POST request
+    payload = {
+        "username": username,
+        "password": password
+    }
+    
+    # Send the POST request
+    response = requests.post(BASE_URL, json=payload)
+    
+    # Print the response details
+    print(f"Status Code: {response.status_code}")
+    print(f"Response Body: {response.json()}")
+
+    # Return the response for assertions in tests
+    return response
+
+# Test case: Valid credentials
+print("Testing with valid credentials...")
+valid_response = test_login_api("valid_user", "valid_password")
+assert valid_response.status_code == 200, "Expected status code 200 for valid credentials"
+assert "token" in valid_response.json(), "Token should be present in the response"
+
+# Test case: Invalid credentials
+print("\nTesting with invalid credentials...")
+invalid_response = test_login_api("invalid_user", "wrong_password")
+assert invalid_response.status_code == 401, "Expected status code 401 for invalid credentials"
+assert "error" in invalid_response.json(), "Error message should be present in the response"
